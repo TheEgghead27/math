@@ -3,17 +3,23 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{thmtools}
+\usepackage{hyperref,cleveref}
 \usepackage{graphicx} % Required for inserting images
 
 \DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\Char}{char}
 
 \declaretheoremstyle[spaceabove=0.25cm,spacebelow=0.25cm,bodyfont=\normalfont,notefont=\normalfont\bfseries, notebraces={(}{)}]{noital}
 \declaretheorem[parent=section,style=noital]{theorem, lemma}
 %\declaretheorem[parent=theorem]{proof}
-\declaretheorem[parent=section,style=noital]{definition}
+\declaretheorem[parent=section,style=noital]{definition, proposition, example}
 \declaretheorem[style=remark, numbered=no]{remark}
+\declaretheorem[style=fact,style=noital]{fact}
+\declaretheorem[style=corollary, numbered=no,style=noital]{corollary}
 
 
 \title{MATH 2260}
@@ -21,6 +27,8 @@
 \date{Fall 2025}
 
 \begin{document}
+
+\maketitle
 
 \section{Preliminaries -- Set Theory}
 A \textbf{set} is a collection of objects called the \textbf{elements} of the set.\footnote{This is an informal "definition" of a set.}
@@ -179,5 +187,176 @@ We say $T$ is diagonalizable of $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\rig
 \begin{remark}
     Since $T(v)-\lambda v = 0 = T(v) - \lambda \id{v} = (T-\lambda\id)(v)=0$, we have that the function $(T-\lambda\id)\in\Hom{(V,V)}$ has $v$ in its kernel. Thus, for the right value of $\lambda$, the function is not injective, surjective, or invertible, and the associated matrix multiplication $(A-\lambda I)(v)=0$ and $\det{(A-\lambda I)}=0$.
 \end{remark}
+
+% 11-03
+\begin{fact}
+    For $f,g\in F[x]$, the space of polynomials over $F$, $\exists$ unique $q,r\in F[x]$ such that $f(x)=q(x)g(x)+r(x)$ and $\deg{r} < \deg{g}$.
+\end{fact}
+\begin{corollary}
+    If $a\in F$ such that $f(a)=0$, then $\exists g\in F[x]$ such that $f(x)=g(x)(x-a)$.\footnote{For $\Char{F} = 2$, strange results like $x^2-(x-1)^2$ are possible.}
+\end{corollary}
+\begin{definition}
+    Given a $V$ of dimension $n$ over $F$, and a linear transformation $T: V\to V$, $T$ is \textbf{diagonalizable} if $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\right\}$ of $V$ and $\lambda_1,\lambda_2,\cdots,\lambda_n\in F$ such that $T(v_j)=\lambda_jv_j$.
+    $$\begin{bmatrix}
+        T(v_1) & T(v_2) & \cdots & T(v_n)
+    \end{bmatrix} = \begin{bmatrix}
+        v_1 & v_2 & \cdots & v_n
+    \end{bmatrix}\begin{bmatrix}
+        \lambda_1 & 0  &\cdots & 0\\
+        0 & \lambda_2 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & \lambda_n
+    \end{bmatrix}$$
+    A corresponding matrix $A\in\Mat_{n\times n}(F)$ is diagonalizable if $\exists$ invertible $P=\begin{bmatrix}
+        v_1 & v_2 & \cdots & v_n
+    \end{bmatrix}\in\Mat_{n\times n}(F)$ such that $P^{-1}AP$ is diagonal, $$AP = P\begin{bmatrix}
+        \lambda_1 & 0  &\cdots & 0\\
+        0 & \lambda_2 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & \lambda_n
+    \end{bmatrix}$$.
+\end{definition}
+\begin{definition}
+    If $\lambda\in F$, $v\ne0\in V$ such that $T(v)=\lambda v$, we call $\lambda$ an \textbf{eigenvalue} of $T$ and $v$ an \textbf{eigenvector} associated to $\lambda$. For the corresponding matrix, if $Av=\lambda v$, $v\ne0\in F^n$ such that $T(v)=\lambda v$, we call $\lambda$ an eigenvalue of $A$.
+\end{definition}
+\begin{definition}
+    $\det(\lambda I - A) = \lambda^n+c_1\lambda^{n-1}+\cdots+c_{n-1}\lambda+c_n$ is called the characteristic polynomial of $A$.\footnote{Helpful fact: $c_1 = -\tr{A}$, $c_n=(-1)^n\det{A}$}
+\end{definition}
+\begin{proposition}
+    $\lambda$ is an eigenvalue of $A$ if and only if $\det(\lambda I - A) = 0$ ($\lambda$ is a root of the characteristic polynomial, solved for using methods such as polynomial division). Any vector $v$ that solves $(\lambda I - A)v=0$ can serve as the eigenvalue.
+\end{proposition}
+\begin{definition}\label{char-poly-t}
+    The characteristic polynomial of $T$ is defined to be the characteristic polynomial of any matrix associated to $T$ with respect to any basis of $V$.
+\end{definition}
+\begin{proof}
+    If $Q\in\Mat_{n\times n}(F)$ is an invertible change-of-basis matrix such that $Q^{-1}AQ=B$, then \begin{align*}
+        \det(\lambda I - B) &= \det(\lambda I - Q^{-1}AQ) = \det(Q^{-1}\lambda IQ - Q^{-1}AQ)\\
+            &=\det(Q^{-1}(\lambda I - A) Q) = \det{Q^{-1}}\det{(\lambda I - A)}\det{Q}\\
+            &= \det{(\lambda I - A)}
+    \end{align*}
+    so \cref{char-poly-t} leads to a unique and well-defined polynomial.
+\end{proof}
+\begin{remark}
+    If $Av=\lambda v, Acv = \lambda(cv)$, eigenvalues are nonunique up to scaling.
+\end{remark}
+\begin{example}
+    $A = \begin{bmatrix}
+        1 & 1 & 0 \\
+        0 & 2 & 2 \\
+        0 & 0 & 3
+    \end{bmatrix}$ $\lambda I - A = \begin{bmatrix}
+        \lambda - 1 & -1 & 0 \\
+        0 & \lambda - 2 & - 2 \\
+        0 & 0 & \lambda - 3
+    \end{bmatrix}$ and for this upper diagonal matrix, the characteristic polynomial is $\rank(\lambda I - A) = (\lambda-1)(\lambda-2)(\lambda-3)$. Considering $\lambda_1=1$, we get a matrix $\lambda_1 I - A = \begin{bmatrix}
+        0 & -1 & 0 \\
+        0 & -1 & - 2 \\
+        0 & 0 & -2
+    \end{bmatrix}$, which has a rank of $2$, and a solution space (kernel) of dimension $1$, with $v_1=\begin{bmatrix}
+        1 \\ 0 \\ 0
+    \end{bmatrix}$ serving as one potential choice of basis. A different choice for $v_1$ will work too.
+\end{example}
+\begin{example}
+    $A = \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 1 \\
+        0 & 0 & 2
+    \end{bmatrix}$ $\lambda I - A = \begin{bmatrix}
+        \lambda - 1 & 0 & 0 \\
+        0 & \lambda - 1 & - 1 \\
+        0 & 0 & \lambda - 2
+    \end{bmatrix}$, $\lambda_1 = 1$ leads to a matrix of rank $1$, kernel of dimension $2$ so 2 linearly independent eigenvectors correspond to $\lambda_1$.
+\end{example}
+\begin{example}
+    $A=\begin{bmatrix}
+        1 & 1\\
+        0 & 1
+    \end{bmatrix}$ has a characteristic polynomial $(\lambda-1)^2$, but the only eigenvalue $\lambda_1=1$ yields a matrix with a kernel of dimension $1$, not $2$, meaning there are not enough eigenvectors. Thus, the matrix is not diagonalizable.
+    % impossible to find 2 equation in [kernel?] space, NOT diagonalizable; this will be something we talk about in the future for canonical form
+\end{example}
+\begin{proposition}\label{prop-linind-eigenvector}
+    If $\lambda_1,\lambda_2,\cdots,\lambda_k$ are eigenvalues of $T$ with corresponding eigenvectors $v_1,v_2,\cdots,v_k$ respectively and $\lambda_i\ne\lambda_k$ if $i\ne j$ (distinct, and implicitly nonzero), then the set of eigenvectors is linearly independent.
+    \begin{proof}
+        Suppose $c_1v_1+c_2v_2+\cdots+c_kv_k=0$. We also have that
+        \begin{align*}
+            0=T(0) &= c_1T(v_1)+c_2T(v_2)+\cdots+c_kT(v_k)\\
+              &= c_1\lambda_1v_1 + c_2\lambda_2v_2 + \cdots + c_k\lambda_kv_k
+        \end{align*}
+        and repeating this operation  $i$ times, $T^i(0) = c_1\lambda_1^iv_1 + c_2\lambda_2^iv_2 + \cdots + c_k\lambda_k^iv_k$, for any positive $i$ and our assumption for ``$i=0$.'' This can be expressed in terms of a Vandermonde matrix.
+        $$\begin{bmatrix}
+            c_1v_1&c_2v_2&\cdots&c_kv_k
+        \end{bmatrix} \begin{bmatrix}
+            1 & \lambda_1 & \lambda_1^2 & \cdots & \lambda_1^{k-1}\\
+            1 & \lambda_2 & \lambda_2^2 & \cdots & \lambda_2^{k-1}\\
+            \vdots & \vdots & \vdots & \vdots & \vdots\\
+            1 & \lambda_k & \lambda_k^2 & \cdots & \lambda_k^{k-1}\\
+        \end{bmatrix}= \begin{bmatrix}
+            0 & 0 & \cdots & 0
+        \end{bmatrix}$$
+        From the determinant of a Vandermonde matrix (as proved in homework problem $9.5$), we know that this matrix is invertible when $\lambda_1,\cdots,\lambda_k$ are pairwise distinct. Letting $M$ be the Vandermonde matrix, $$\begin{bmatrix}
+            c_1v_1&c_2v_2&\cdots&c_kv_k
+        \end{bmatrix}=M^{-1}\begin{bmatrix}
+            0 & 0 & \cdots & 0
+        \end{bmatrix}=\begin{bmatrix}
+            0 & 0 & \cdots & 0
+        \end{bmatrix}$$
+        Since each individual $c_jv_j=0$, and $v_j\ne 0$, it must be the case that all $c_j$ are $0$, the set of $v_j$ is linearly independent.
+    \end{proof}
+\end{proposition}
+\begin{definition}
+    $$V_\lambda=\left\{v\in V\mid T(v)=\lambda v\right\}$$ is the eigenspace of $T$ associated to the eigenvalue $\lambda$. For non-eigenvalue $\lambda$, the set is trivially only $\left\{0\right\}$.
+\end{definition}
+\begin{theorem}
+    Suppose $\lambda_1,\cdots,\lambda_k$ are distinct eigenvalues and $S_{\lambda_i}$ a basis of $V_{\lambda_i}$, then $S_{\lambda_1}\cup S_{\lambda_2} \cup \cdots \cup S_{\lambda_k}$ is linearly independent.
+    \begin{proof}
+        The linear combination of all elements in the union is equivalent to a linear combination of elements in the eigenspaces:
+        \begin{align*}
+            &\left(c_1^1v_1^{\lambda_1} + c_2^1v_2^{\lambda_1} + \cdots + c_{n1}^1v_{n1}^{\lambda_1} + \right) + 
+            \left(c_1^2v_1^{\lambda_2} + c_2^2v_2^{\lambda_2} + \cdots + c_{n2}^2v_{n2}^{\lambda_2} + \right) + \cdots +\\
+            &\left(c_1^kv_1^{\lambda_k} + c_2^kv_2^{\lambda_k} + \cdots + c_{nk}^kv_{nk}^{\lambda_k} + \right) = v_{\lambda_1} + v_{\lambda_2} + \cdots + v_{\lambda_k} = 0
+        \end{align*}
+        We claim that $v_{\lambda_i}\in V_{\lambda_i}$ must all be $0$, and from there we use the linear independent properties of the basis vectors to show that the coefficients must all be $0$. This can be considered a more general analog to \cref{prop-linind-eigenvector}.
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    $T$ is diagonalizable if (and only if) $\sum_{\lambda\in \left\{eigenvalues\right\}} \dim{V_\lambda} = \dim{V}$ (producing a basis spanning the space). In such a case, we have
+    \begin{align*}
+        &\begin{bmatrix}
+            T(v_1^{\lambda_1}) & \cdots & T(v_{n1}^{\lambda_1}) &
+            T(v_1^{\lambda_2}) & \cdots & T(v_{n2}^{\lambda_2}) & \cdots &
+            T(v_1^{\lambda_k}) & \cdots & T(v_{nk}^{\lambda_k})
+        \end{bmatrix} = \\
+        &= \begin{bmatrix}
+            v_1^{\lambda_1} & \cdots & v_{n1}^{\lambda_1} &
+            v_1^{\lambda_2} & \cdots & v_{n2}^{\lambda_2} & \cdots &
+            v_1^{\lambda_k} & \cdots & v_{nk}^{\lambda_k}
+        \end{bmatrix}\begin{bmatrix}
+            \lambda_1\\
+            &\ddots\\
+            && \lambda_1\\
+            &&&\lambda_2\\
+            &&&&\ddots\\
+            &&&&&\lambda_2\\
+            &&&&&&\ddots\\
+            &&&&&&&\lambda_k\\
+            &&&&&&&&\ddots\\
+            &&&&&&&&&\lambda_k
+        \end{bmatrix}
+    \end{align*}
+    with there being $n_i$ rows of each $\lambda_i$.
+\end{corollary}
+\begin{definition}
+    For an eigenvalue $\lambda_0$ of $T$, we call the multiplicity of the root $\lambda_0$ in the characteristic polynomial of $T$ the \textbf{algebraic multiplicity}  of $\lambda_0$.
+    \begin{remark}
+        For $f(x)\in F[x]$, $a\in F$ a root of $f$ (i.e. $f(a)=0)$, $\exists k \ge 1, g(x)\in F[x]$ such that $f(x) = (x-a)^kg(x)$ and $g(a)\ne0$.
+    \end{remark}
+\end{definition}
+\begin{definition}
+    We call $\dim{V_{\lambda_0}}$ the \textbf{geometric multiplicity} of $\lambda_0$
+\end{definition}
+\begin{proposition}
+    If $\lambda_0$ is an eigenvalue of $T$, then the geometric multiplicity of $\lambda_0\le$ the algebraic multiplicity of $\lambda_0$. 
+\end{proposition}
+
 \end{document}
 
