@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{graphicx} % Required for inserting images
+
+\title{MATH 2260}
+\author{David Chen}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Preliminaries -- Set Theory}
+A \textbf{set} is a collection of objects called the \textbf{elements} of the set.\footnote{This is an informal "definition" of a set.}
+We can describe a set with either a list of all the elements, or the characteristic properties of a set (e.g. $\left\{1,2,3 \right\) = \left\{ x \in \mathbb{N} \mid x \le 3\right\)$
+
+$x\in A$ means x is contained in the set A, $x \nin A$ is the opposite. The Principle of Excluded Middle states that these are the only two possible states.
+
+$B \subset A$ if $\forall x \in B, x\in A$.
+
+
+\subsection{Examples of Sets}
+\begin{itemize}
+	\item $\mathbb{Z} = \left\{1,2,3,\cdots\right\}$ natural numbers (sometimes $0$ is included as a natural number)
+	\item \mathbb{Z} integers
+	\item \mathbb{Q} rational numbers
+	\item \mathbb{R} real numbers (definitions need real analysis)
+	\item \mathbb{C} complex numbers (also needs real analysis)
+\end{itemize}
+
+% TODO: CHEATING SHEET CONENT
+$f: A \to B$ is injective (into) if $\fotall a_1,a_2\in A$  such that $f(a_1)=f(a_2)$, we have $a_1=a_2$.
+$f: A \to B$ is surjective (onto) if $\forall b\in B, \exists a \in A$ such that $f(a)=b$ ($\iff f(A) = B$).
+$f$ is bijective if it is injective and surjective (one-to-one)
+
+If $f: A\to B$ is bijective, we define $f^{-1}:B\to A$, $b\to f^{-1}(b)$ (TODO FIX THE ARROW), where $f^{-1}(b)$ is the unique element in $A$ such that $f(f^{-1}(b))=b$.
+
+A field is a set $F$ together with two operations (function): $+:F\times F \to F, (a,b) |=> a+b$, $\cdot: F\times F \to F, (a,b) |=> (a\cdot b$ or $(ab)$.
+
+Field condition 1, commutative property (addition and multiplication)
+Field condition 2, associative property (addition and multiplication)
+Field condition 3, there exists an additive identity element and a multiplicative identity element $1\ne0$.
+Field condition 4, there exists an additive inverse element and a multiplicative inverse element
+Field condition 5, distributive property
+
+Symmetry on a table (e.g. that for the elements of $\mathbb{F}_2$ under their operations) suggests commutativity.
+
+If (F, +, \cdot) is a field, $K \subset F$ is a subfield if (K, $+\mid_{K\times K}$, $\cdot\mid_{K\times K}$) is a field. We ensure this by checking that the operations' images are contained in the subset and that the identity elements are in the subset (this is redundant, we can also check that we have the inverse elements).
+
+Cancellation Law, $a+c=b+c$, $a=b$, and if $c\ne0$, $ac=bc$ implies $a=b$
+
+Identity elements are unique
+
+$a0=0$, $a(-1)=-a$, $(-1)(-1)=1$
+
+convention: $a+(-b)=a-b$, $a\cdot b^{-1} = \frac{a}{b}$, $a+a+\cdots+a=ak$, $a\cdot a \cdot a \cdot \cdots \cdot a = a^k$ for $k\in\mathbb{Z}$ terms.
+
+The characteristic of a field is $char(F)$ the minimal positive integer $p$ such that $1p=0$.
+
+If such $p$ does not exist, the characteristic is 0. Otherwise, char must be a prime number by the cancellations
+
+if the chararcterisitc is 0, then there is a mapping of the rationals to F, if there is a nonzero characteristic, then there is an isomorphism from $\mathbb{F}_p$ to the field
+
+\section{Vector Spaces}
+A vector space over a field $F$ is a set $C$ with $_: V\times V\to V$, $ \cdot: F\times V\to V$. We call elements of $V$ vectors.
+Vector condition 1, + commutative
+Vector condition 2, + associative
+
+span, linear combination
+
+
+A linear equation over $F$ of variables $x_1, \cdots, x_n$ is an expression of the form
+$a_1x_1+a_2x_2+\cdots+a_nx_n=b$ for some $a_1,a_2,\cdots,a_n,b\in F$. If $b=0$ this is a homogenous system.
+
+We say $S=(s_1,s_2,\cdots,s_n)\inF^n$ is a solution to the equation if $a_1s_\cdots+a_ns_n=b$.
+The solution space, set of all $S\in F^n | a_1s_1+\cdots+a_ns_n=b0$ is a subspace of $F^n$ for homogenous equations.
+
+A linear system is a set (collection)\footnote{We call it a collection because we only want to w rite half the brackets.} of linear equations). A solution to a linear system is a solution to each equation in the system.
+
+If there is a solution for a linear system, then the solutions of that system are preciely some vector + a solution to the associated homogenous system (i.e. shift by $t$).
+
+$t,t'\in F^n$, both are solutions, then their difference solves the homogenous system.
+
+
+Invertile operations
+The following operations preserve the solution set of a linear system
+- interchangin ght eorder of two equations
+- multiplying an equation by a nonzdreo element in F (scaling)
+- adding a multiplication of an equation to another equation
+
+
+linear indpeendence exists
+
+unique expression of anay vector in terms of basis
+
+
+linear system has a unique solution if and only if the homogenous system has a unique solution
+
+
+\end{document}
+
