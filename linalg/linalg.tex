@@ -5,40 +5,31 @@
 \usepackage{thmtools}
 \usepackage{hyperref,cleveref}
 \usepackage{graphicx} % Required for inserting images
-
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\im}{Im}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\Mat}{Mat}
 \DeclareMathOperator{\Char}{char}
-
+\DeclareMathOperator{\Span}{Span}
 \declaretheoremstyle[spaceabove=0.25cm,spacebelow=0.25cm,bodyfont=\normalfont,notefont=\normalfont\bfseries, notebraces={(}{)}]{noital}
 \declaretheorem[parent=section,style=noital]{theorem, lemma}
 %\declaretheorem[parent=theorem]{proof}
 \declaretheorem[parent=section,style=noital]{definition, proposition, example}
 \declaretheorem[style=remark, numbered=no]{remark}
-\declaretheorem[style=fact,style=noital]{fact}
-\declaretheorem[style=corollary, numbered=no,style=noital]{corollary}
-
-
+\declaretheorem[style=remark,style=noital]{fact}
+\declaretheorem[style=remark, numbered=no,style=noital]{corollary}
 \title{MATH 2260}
 \author{David Chen}
 \date{Fall 2025}
-
 \begin{document}
-
 \maketitle
-
 \section{Preliminaries -- Set Theory}
 A \textbf{set} is a collection of objects called the \textbf{elements} of the set.\footnote{This is an informal "definition" of a set.}
 We can describe a set with either a list of all the elements, or the characteristic properties of a set (e.g. $\left\{1,2,3 \right\} = \left\{ x \in \mathbb{N} \mid x \le 3\right\}$)
-
 $x\in A$ means x is contained in the set A, $x \notin A$ is the opposite. The Principle of Excluded Middle states that these are the only two possible states.
-
 $B \subset A$ if $\forall x \in B, x\in A$.
-
-
 \subsection{Examples of Sets}
 \begin{itemize}
 	\item $\mathbb{Z} = \left\{1,2,3,\cdots\right\}$ natural numbers (sometimes $0$ is included as a natural number)
@@ -47,87 +38,55 @@ $B \subset A$ if $\forall x \in B, x\in A$.
 	\item $\mathbb{R}$ real numbers (definitions need real analysis)
 	\item $\mathbb{C}$ complex numbers (also needs real analysis)
 \end{itemize}
-
 % TODO: CHEATING SHEET CONENT
 $f: A \to B$ is injective (into) if $\forall a_1,a_2\in A$  such that $f(a_1)=f(a_2)$, we have $a_1=a_2$.
 $f: A \to B$ is surjective (onto) if $\forall b\in B, \exists a \in A$ such that $f(a)=b$ ($\iff f(A) = B$).
 $f$ is bijective if it is injective and surjective (one-to-one)
-
 If $f: A\to B$ is bijective, we define $f^{-1}:B\to A$, $b\to f^{-1}(b)$ (TODO FIX THE ARROW), where $f^{-1}(b)$ is the unique element in $A$ such that $f(f^{-1}(b))=b$.
-
 A field is a set $F$ together with two operations (function): $+:F\times F \to F, (a,b) |=> a+b$, $\cdot: F\times F \to F, (a,b) |=> (a\cdot b$ or $(ab)$.
-
 Field condition 1, commutative property (addition and multiplication)
 Field condition 2, associative property (addition and multiplication)
 Field condition 3, there exists an additive identity element and a multiplicative identity element $1\ne0$.
 Field condition 4, there exists an additive inverse element and a multiplicative inverse element
 Field condition 5, distributive property
-
 Symmetry on a table (e.g. that for the elements of $\mathbb{F}_2$ under their operations) suggests commutativity.
-
 If $(F, +, \cdot)$ is a field, $K \subset F$ is a subfield if (K, $+\mid_{K\times K}$, $\cdot\mid_{K\times K}$) is a field. We ensure this by checking that the operations' images are contained in the subset and that the identity elements are in the subset (this is redundant, we can also check that we have the inverse elements).
-
 Cancellation Law, $a+c=b+c$, $a=b$, and if $c\ne0$, $ac=bc$ implies $a=b$
-
 Identity elements are unique
-
 $a0=0$, $a(-1)=-a$, $(-1)(-1)=1$
-
 convention: $a+(-b)=a-b$, $a\cdot b^{-1} = \frac{a}{b}$, $a+a+\cdots+a=ak$, $a\cdot a \cdot a \cdot \cdots \cdot a = a^k$ for $k\in\mathbb{Z}$ terms.
-
 The characteristic of a field is $char(F)$ the minimal positive integer $p$ such that $1p=0$.
-
 If such $p$ does not exist, the characteristic is 0. Otherwise, char must be a prime number by the cancellations
-
 if the chararcterisitc is 0, then there is a mapping of the rationals to F, if there is a nonzero characteristic, then there is an isomorphism from $\mathbb{F}_p$ to the field
-
 \section{Vector Spaces}
 A vector space over a field $F$ is a set $C$ with $_: V\times V\to V$, $ \cdot: F\times V\to V$. We call elements of $V$ vectors.
 Vector condition 1, + commutative
 Vector condition 2, + associative
-
 span, linear combination
-
-
 A linear equation over $F$ of variables $x_1, \cdots, x_n$ is an expression of the form
 $a_1x_1+a_2x_2+\cdots+a_nx_n=b$ for some $a_1,a_2,\cdots,a_n,b\in F$. If $b=0$ this is a homogenous system.
-
 We say $S=(s_1,s_2,\cdots,s_n)\in F^n$ is a solution to the equation if $a_1s_1+\cdots+a_ns_n=b$.
 The solution space, set of all $S\in F^n | a_1s_1+\cdots+a_ns_n=b0$ is a subspace of $F^n$ for homogenous equations.
-
 A linear system is a set (collection)\footnote{We call it a collection because we only want to w rite half the brackets.} of linear equations). A solution to a linear system is a solution to each equation in the system.
-
 If there is a solution for a linear system, then the solutions of that system are preciely some vector + a solution to the associated homogenous system (i.e. shift by $t$).
-
 $t,t'\in F^n$, both are solutions, then their difference solves the homogenous system.
-
-
 Invertile operations
 The following operations preserve the solution set of a linear system
 - interchangin ght eorder of two equations
 - multiplying an equation by a nonzdreo element in F (scaling)
 - adding a multiplication of an equation to another equation
-
-
 linear indpeendence exists
-
 unique expression of anay vector in terms of basis
-
-
 linear system has a unique solution if and only if the homogenous system has a unique solution
-
-
 \section{3}
 \section{Linear Systems}
 \begin{definition}
     A solution to a linear system $A=(a_{ij})_{m\times n}\in \Mat_{m\times n}$, $B\in F^m$ is an $x\in F^n$ such that $Ax=b$.
 \end{definition}
-
 % TODO: find a normal place for this result
 \begin{remark}
     $$(AB)^t = B^tA^t$$
 \end{remark}
-
 \subsection{Elementary Matrices}
 \begin{definition}
     Elementary matrices represent the three primitive operations:
@@ -163,10 +122,8 @@ linear system has a unique solution if and only if the homogenous system has a u
         \item Arbitrary Row Multiplication:
     \end{itemize}
 \end{definition}
-
 \section{Diagonalization}
 Suppose $V$ is a vector space over $F$ of dimension $n$. For a linear transformation $T: V\to V$, can we find a basis $v_1,v_2,\cdots,v_n$ such that the matrix associated to $T$ looks ``simple''?
-
 \begin{definition}
 We say $T$ is diagonalizable of $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\right\}$ such that $$\begin{bmatrix}
     T(v_1) & T(v_2) & \cdots & T(v_n)
@@ -179,15 +136,12 @@ We say $T$ is diagonalizable of $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\rig
     0 & 0 & \cdots & \lambda_n
 \end{bmatrix}$$$$T(v_j)=\lambda_jv_j$$
 \end{definition}
-
 \begin{definition}
     We say $\lambda\in F$ is an eigenvalue of $T$ if $\exists v\in V \setminus\left\{0\right\}$ such that $T(v)=\lambda v$. We call $v$ an eigenvector associated to the eigenvalue $\lambda$.
 \end{definition}
-
 \begin{remark}
     Since $T(v)-\lambda v = 0 = T(v) - \lambda \id{v} = (T-\lambda\id)(v)=0$, we have that the function $(T-\lambda\id)\in\Hom{(V,V)}$ has $v$ in its kernel. Thus, for the right value of $\lambda$, the function is not injective, surjective, or invertible, and the associated matrix multiplication $(A-\lambda I)(v)=0$ and $\det{(A-\lambda I)}=0$.
 \end{remark}
-
 % 11-03
 \begin{fact}
     For $f,g\in F[x]$, the space of polynomials over $F$, $\exists$ unique $q,r\in F[x]$ such that $f(x)=q(x)g(x)+r(x)$ and $\deg{r} < \deg{g}$.
@@ -311,7 +265,7 @@ We say $T$ is diagonalizable of $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\rig
     \begin{proof}
         The linear combination of all elements in the union is equivalent to a linear combination of elements in the eigenspaces:
         \begin{align*}
-            &\left(c_1^1v_1^{\lambda_1} + c_2^1v_2^{\lambda_1} + \cdots + c_{n1}^1v_{n1}^{\lambda_1} + \right) + 
+            &\left(c_1^1v_1^{\lambda_1} + c_2^1v_2^{\lambda_1} + \cdots + c_{n1}^1v_{n1}^{\lambda_1} + \right) +
             \left(c_1^2v_1^{\lambda_2} + c_2^2v_2^{\lambda_2} + \cdots + c_{n2}^2v_{n2}^{\lambda_2} + \right) + \cdots +\\
             &\left(c_1^kv_1^{\lambda_k} + c_2^kv_2^{\lambda_k} + \cdots + c_{nk}^kv_{nk}^{\lambda_k} + \right) = v_{\lambda_1} + v_{\lambda_2} + \cdots + v_{\lambda_k} = 0
         \end{align*}
@@ -355,8 +309,129 @@ We say $T$ is diagonalizable of $\exists$ a basis $\left\{v_1,v_2,\cdots,v_n\rig
     We call $\dim{V_{\lambda_0}}$ the \textbf{geometric multiplicity} of $\lambda_0$
 \end{definition}
 \begin{proposition}
-    If $\lambda_0$ is an eigenvalue of $T$, then the geometric multiplicity of $\lambda_0\le$ the algebraic multiplicity of $\lambda_0$. 
+    If $\lambda_0$ is an eigenvalue of $T$, then the geometric multiplicity of $\lambda_0\le$ the algebraic multiplicity of $\lambda_0$.
 \end{proposition}
+% 2025-11-10
+\begin{definition}
+    For $f,g\in F[x], \gcd{(f,g)}$ is monic\footnote{$f(x)$ is monic implies that $f(x) = x^n + \cdots$, leading coefficient is $1$.} polynomial such that\footnote{$h(x)|g(x)$ (``h divisor of g'') if $\exists p(x)\in F[x]$ such that $g(x)=h(x)p(x)$} \begin{itemize}
+        \item $\forall h(x)\in F[x], h|f, h|g,$ then $h|gcd(f,g)$
+        \item $\gcd(g,h)|f$, $\gcd(f,g)|g$
+    \end{itemize}
+\end{definition}
+% we will need this in the future!
+\begin{lemma}
+    (B\'{e}zout Lemma)
+    $\exists p(x),q(x)\in F[x]$ such that $p(x)f(x)+q(x)g(x) = \gcd(f,g)(x)$
+\end{lemma}
+\begin{remark}
+    We let $V$ vector space over $F$ of finite dimension. $W_1,W_2, \cdots, W_k$ are subspace of $V$
+    $$\sum_{i=1}^k W_i = \left\{w_1+w_2+\cdots+w_k\mid w_i\in W_i\right\}$$
+\end{remark}
+\begin{theorem}
+        If $V = \sum_{i=1}^k W_i$, then the following are equivalent:
+        \begin{enumerate}
+            \item $W_i\cap \sum_{j\ne i} W_i = \left\{0\right\}$
+            \item $\forall v\in V$ there are unique $w_i\in W_i$ such that $v=w_1+w_2+\cdots+w_k$
+            \item If $0 = w_1+w_2+\cdots+w_k$ and with each $w_i\in W_i$, then $w_i = 0$.
+            \item Suppose $B_i$ is a basis of $W_i$. Then, $\cup_{i=1}^k B_i$ is linearly independent.
+        \end{enumerate}
+        With the above hold, we denote (the direct sum\footnote{A direct sum is implied to be linearly independent.}) $$\sum^k_{i=1}W_i=\oplus_{i=1}^k W_i = W_1 \oplus W_2 \oplus \cdots \oplus W_k$$
+        % proof is left as a homework assignment
+\end{theorem}
+\begin{remark}
+    $W_1,W_2,W_3$,
+    \begin{align*}
+        W_1&\cap W_2 = \left\{0\right\}\\
+        W_2&\cap W_3 = \left\{0\right\}\\
+        W_1&\cap W_3 = \left\{0\right\}\\
+    \end{align*}
+    it is possible that $W_1\cup (W_2+W_3)\supsetneq\left\{0\right\}$
+\end{remark}
+\begin{proposition}
+For a linear transformation $T:V\to V$:
+\begin{theorem}
+    $T$ is diagonalizable if and only if $$V=\oplus_{\lambda\in \left\{\textrm{eigenvalues of } T\right\}}V_\lambda$$
+\end{theorem}
+\begin{definition}
+    We say a subspace $W\in V$ is a $T$-invariant subspace ($T$-subspace) if $T(W) =\im{T}(W)\subset W$ (``$T$ preserves $W$'', $\forall w\in W, T(w)\in W$).
+    \begin{enumerate}
+        \item $V\in V$
+        \item $\left\{0\right\}\in V$
+        \item  $\im{T}$ is $T$-invariant.
+        \item $\ker{T}$ is $T$-invariant. $T(\ker{T})  = \left\{0\right\}\in\ker{T}$
+        \item If $\lambda$ is an eigenvalue of $T$, $V_\lambda = \left\{v\in V\mid T(v0=\lambda v\right\}$ is $T$-invariant since $T\mid_{V_\lambda} = \lambda\id_{v_\lambda}$
+    \end{enumerate}
+\end{definition}
+\begin{lemma}
+    If $W\in V$ a $T$-invariant subspace, suppose we have a basis if $V$ $\left\{v_1,\cdots,v_k, v_{k+1},\cdots,v_n \right\}$ and $\left\{v_1,\cdots, v_k\right\}$ is a basis of $W$, then the associated matrix to $T$ is of the form $\begin{bmatrix}
+        A_{k\times k} & B\\ 0 & C
+    \end{bmatrix}_{n\times n}$
+    $$\begin{bmatrix}
+        T(v_1) & T(v_2) & \cdots & T(v_k) & T(v_{k+1}) & \cdots & T(v_n)
+    \end{bmatrix} = \begin{bmatrix}
+        v_1 &\cdots&v_k &v_{k+1} & \cdots & v_n
+    \end{bmatrix}\begin{bmatrix}
+        A_{k\times k} & B\\ 0 & C
+    \end{bmatrix}$$ where $A,B,C$ have arbitrary values.
+    \begin{remark}
+        Moreover, $B=0$ if and only if $\Span\{v_{k+1}, \cdots, v_n\}$ is $T$-invariant.
+    \end{remark}
+\end{lemma}
+\begin{definition}
+$v\in V$m $v\ne 0$, $\exists k$ such that $\left\{v, T(v), T^2(v), \cdots, T^k(v)\right\}$, is linearly dependent, but $\left\{v,T(v),\cdots,T^{k-1}(v)\right\}$ is linearly independent (there is a minimal $k$ that will happen eventually for finite dimension space). This is equivalent to saying $$T^k =  a_0v+a_1T(v)+a_2T^2(v) + \cdots + a_kT^{k-1}(v)$$ In this case, $\Span\left\{v,T(v),\cdots,T^{k-1}(v)\right\}$ is a $T$-invariant subspace called the $T$-cyclic subspace generated by $V$.
+\end{definition}
+\begin{lemma}
+    With the notation as above, extend $\left\{v,T(v),\cdots,T^{k-1}(v)\right\}$ to a basis of $V$, $\left\{v,T(v),\cdots,T^{k-1}(v), T(w_1), \cdots, T(w_{n-k})\right\}$ . The the matrix associated to $T$ is of the form $\begin{bmatrix}
+        A & * \\ 0 & *
+    \end{bmatrix}$ where $$A  = \begin{bmatrix}
+        0 & 0 & \cdots & 0 & a_0\\
+        1 & 0 & \cdots & 0 & a_1\\
+        0 & 1 & 0 & \cdots & \vdots\\
+        \vdots & \vdots & \ddots &\ddots &\vdots\\
+        0 & 0 & \cdots & 1 & a_{k-1}
+    \end{bmatrix}$$
+    We have $T^k(v)=a_0v+a_1T(v)+\cdots+a_{k-1}T^{k-1}(v)$, characteristic polynomial $f_v(x) = x^k-a_{k-1}x^{k-1} - \cdots - a_1x-a_0$ by the following lemma.
+    \begin{definition}
+        For a monic polynomial $f(x) = x^n + c_{n-1}x^{n-1} + \cdots + c_1x+c_0$ we call $$C_f=\begin{bmatrix}
+        0 & 0 & \cdots & 0 & -c_0\\
+        1 & 0 & \cdots & 0 & -c_1\\
+        0 & 1 & 0 & \cdots & \vdots\\
+        \vdots & \vdots & \ddots &\ddots &\vdots\\
+        0 & 0 & \cdots & 1 & -c_{n-1}
+        \end{bmatrix}$$
+    \end{definition}
+    \begin{lemma}
+        $\det{(\lambda I - C_f)} = f(\lambda)$, the idea is that
+        $$\begin{bmatrix}
+        \lambda &  &  &  & c_0\\
+        -1 & \lambda &  &  & c_1\\
+         & -1 & \lambda &  & \vdots\\
+         &  & \ddots &\ddots &\vdots\\
+        & &  & -1 & \lambda+c_{n-1}
+        \end{bmatrix}$$
+        and we can look at the last column/row. % this will be homework
+        % do this in the homework: The cofactor expansion the last column in row $i$ will have $\sum_{i=0}^{n-2}(-c_i)(-1)^{n-1-i}\lambda^i + (-1)^{n+n}$
+    \end{lemma}
 
+    %And so $f_v(x)$ is determined by $v$.
+    \begin{theorem}
+        $\forall v\in V, v\ne 0$, $f_v\mid\textrm{the characteristic polynomial of $T$}=\det\left(\begin{bmatrix}
+            \lambda I - A & -*\\ 0 & \lambda I - *
+        \end{bmatrix}\right)$.
+        \begin{proof}
+            $\det\left(\lambda I_n - \begin{bmatrix}
+        A & * \\ 0 & *
+    \end{bmatrix}\right) = \det\left(\begin{bmatrix}
+            \lambda I - A & -*\\ 0 & \lambda I - *
+        \end{bmatrix}\right) = \det(\lambda I - C_f)\det{(\lambda I_{n-k} - *)}$, so by the fact that $\det\begin{bmatrix}
+            A & B \\ 0 & C
+        \end{bmatrix} = \det{A}\det{C}$, there is a factor of $f_v(\lambda)$.
+        \end{proof}
+        $f(x)\in F[x]$, $f(x)=x^n+c_{n-1}x^{n-1} + \cdots + c_1x+c_0$, so in the space of linear transformations $f(T) = T^n + c_{n-1}T^{n-1} + \cdots + c_1T +c_0\id_v\in\Hom{(V,V)}$; $T^k(v)\iff f_v(T)(v) = 0$
+        % next time: c_t is the characteristic polynomial of $T$, then $c_T(T)=0
+        % wrong way to understand this is $c_a(\lambda) = \det(\lambda I - A)$, $c_A(A)=0$
+    \end{theorem}
+
+\end{lemma}
+\end{proposition}
 \end{document}
-
