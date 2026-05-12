@@ -1,0 +1,199 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usepackage{derivative}
+\DeclareMathOperator{\sgn}{sgn}
+\usepackage{mathrsfs}
+
+\newcommand{\lablace}[1]{\mathscr{L}\ab\{#1\}}
+
+\title{ENAS 1940}
+\author{David Chen}
+\date{Spring 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introductory Statements}
+An \textbf{ordinary differential equation (ODE)} is an equation relating ordinary derivatives, and a \textbf{partial differential equation (PDE)} relates partial derivatives.
+The \textbf{order} of a differential equation is the highest numbered derivative in the equation.\\
+We mostly cover \textbf{linear} differential equations in this course, which allow for the \textbf{superposition} (summation/scaling) of solutions. 
+
+A \textbf{homogeneous} equation has no terms that are not a function of the dependent variable.
+
+\section{Method of Integrating Factors}
+Shortening $p = p(t)$, $g=g(t)$, $\mu = \mu(t)$
+\begin{align*}
+    \odv{y}{t} + py &= g\\
+    \mu\ab(\odv{y}{t} + py) &= \mu g\\
+    \mu\odv{y}{t} + \mu py &= \mu g
+\end{align*}
+We choose $\mu$ such that $\mu p y = \odv{\mu}{t}y$, thus satisfying the form of the Product Rule. From such a condition, we get that
+$$\frac{\odv{\mu}{t}}{\mu} = p$$
+$$\frac{\odif{\mu}}{u} = p\,\odif{t}$$
+So $$\mu=e^{\int p\odif{t}} + C$$
+
+For a first-order ordinary differential equation, given that $p,g$ are continuous on a domain, there will exist a unique solution to the differential equation on that domain.
+
+\section{Method of Undetermined Coefficients}
+The solution set of a nonhomogeneous (second order) differential equation
+$$y''+py'+qy=g$$
+can be written in the form
+$y=c_1y_1(t)+c_2y_2(t)+Y(t)$
+where the first two terms are the homogeneous equation's solutions (\textbf{complementary solution}), and the $Y(t)$ is to be determined.
+
+If the form of $g$ is something familiar like a sinusoid or polynomial, the particular solution may take the form of such terms up to a set of scalars that one solves for (treating each distinct term as a basis).
+
+\section{Variation of Parameters}
+Given a nonhomogeneous second order differential equation with homogeneous solutions $y_1,y_2$, we choose\footnote{Alternatives to this choice exist, but this is the one used in our course.} to find a solution of the form $y=c_1y_1+c_2y_2+Y$ where for $u_1(t)$ and $u_2(t)$, $Y=u_1y_1 + u_2y_2$ and $$u_1'y_1+u_2'y_2=0$$
+Evaluation of the differential equation using this solution ($0$ing out the terms with $y_1$,$y_2$ based on the assumption that they are homogeneous solutions) leads to the second condition that
+$$u_1'y_1'+u_2'y_2'=g$$
+
+To solve the system, we use the Wronskian determinant, which in the 2x2 case is
+$$W=\begin{vmatrix}
+    y_1 & y_2\\ y_1' & y_2'
+\end{vmatrix}$$
+and obtain a result
+$$Y=-y_1\int\frac{y_2g}{W}\,dt + y_2\int\frac{y_1g}{W}\,dt$$
+Linearly independent solutions will have nonzero Wronskians.
+
+
+\section{Euler Equations}
+For a second-order ODE
+$$x^2y''+\alpha xy' + \beta y = 0$$
+letting $y=e^{rt}$ and solving the quadratic for $r$ will yield
+\begin{itemize}
+    \item Real roots $r_1,r_2$: $y=c_1e^{r_1t} + c_2e^{r_2t}$
+    \item Redundant roots $r$: $y=(c_1+c_2t)e^{rt}$
+    \item Complex conjugates $r=\lambda\pm\mu i$: $y=e^{\lambda t}(c_1\cos{\mu t} + c_2\sin{\mu t})$ 
+\end{itemize}
+
+For higher order equations, similar results follow, with $n$ redundant roots corresponding with $t^{n-1}e^{rt}$ and below. This is proven using the ansatz from d'Alembert of $y=v(t)y_1$.
+
+\section{Series Solution about an Ordinary Point}
+For a differential equation
+$$P(x)y''+Q(x)y'+R(x)y=0$$
+choosing $x_0$ in an interval where $P(x_0)\ne0$, we can divide to yield
+$$y''+py'+qy=0$$
+The solution will take the form $$\sum_{n=0}^\infty a_n(x-x_0)^n$$
+$p,q$ being analytic at $x_0$ results in an ordinary point.
+
+The convergence of such a series can be proven using the ratio test, convergence of $p,q$ is usually sufficient to justify this too.
+
+\section{Series Solutions for Regular Singular Points}
+For simplicity, we shift the system's independent variable such that our initial point is always $x=0$.
+Regular Singular Points do not have analytic $p(0),q(0)$, but instead $\lim_{x\to0}xp(x)=p_0$ and $\lim_{x\to0}x^2q(x)=q_0$. Applying a method of ``Euler coefficients times power series,'' we assume
+$y=x^r\sum_{n=0}^\infty a_nx^n= \sum_{n=0}^\infty a_nx^{r+n}$
+The possible values for $r$ are the roots of the indicial equation
+$$F(r)=r(r-1)+p_0r+q_0=0$$
+and so long as $r_1\ne r_2+n$ for $n\in\mathbb{Z}$, one can easily obtain two linearly independent solutions.
+
+\section{Laplace Transform}
+The Laplace Transform is defined as
+$$\mathscr{L}\ab\{f(t)\}=F(s)=\int_0^\infty f(t)e^{-st}\,dt$$
+\subsection{Properties of the Laplace Transform}
+The Laplace Transform has many properties that make it useful for manipulation  of differential equations. One of the most notable of which is linearity (inherited from integration/summation). Linearity allows us to derive tables of useful Laplace Transforms and their properties, some of which are given below.
+\subsubsection{$n^{th}$ Derivative Property}
+$$\lablace{f^{(n)}(t)}=s^nF(s)-s^{n-1}f(0)-s^{n-2}f'(0)-\cdots-f^{(n-1)}(0)$$
+For the $n=1$ case, this reduces to
+$$\lablace{f'(t)}=sF(s)-f(0)$$
+\subsubsection{Time/Frequency Shift Property}
+$$\lablace{u(t-c)f(t-c)}=e^{-cs}F(s)$$
+$$\lablace{e^{cs}f(t)}=F(s-c)$$
+(assuming $s>c$ in the latter equation)
+\subsubsection{Convolution Property}
+Given two Laplace Transformed functions $F(s),G(s)$:
+$$\lablace{h(t)}=F(s)G(s)$$ implies that $$h(t)=f(t)*g(t)=\int_0^tf(t-\tau)g(\tau)\,d\tau=\int_0^tf(\tau)g(t-\tau)\,d\tau$$
+
+\subsection{Application of the Laplace Transform}
+For a 2nd order ODE
+$$ay''+by'+cy=g(t)=$$ the solution will have
+$$Y(s)=\Phi(s)+\Psi(s)$$
+where $\phi(t)$ represents the transient response and $\psi(t)$ represents the forced response, and are obtained with \begin{align*} \Phi(s)=H(s)\ab[\ab(as+b)y_0+ay_0'] && \Psi(s)=H(s)G(s)
+\end{align*}
+$$H(s)=\frac{1}{as^2+bs+c}$$
+
+\section{Separation of Variables}
+\subsection{Heat Conduction}
+Consider a partial differential equation
+$\alpha^2\pdv[order=2,2]{u}{x}=\pdv{u}{t}$ representing the conduction of heat through a one-dimensional rod of length $L$ with insulated sides ($u(0,t)=u(L,t)=0$) and initial temperature distribution $u(x,0)=f(x)$. This is a separable differential equation where $u(x,t)=X(x)T(t)$, and rearrangement of the differential equation yields
+$$\frac{X''}{X}=\frac{1}{\alpha^2}\frac{T'}{T}=C$$
+where $C$ must be a fixed constant (since the two expressions are independent of one another).\\
+Casework for $C > 0$, $C = 0$, and $C<0$ shows that it is only possible to satisfy the initial conditions with $C=-\ab(\frac{n\pi}{L})^2$ (eigenvalues). The resulting fundamental solutions all take the form $$u_n(x,t)=e^{-\ab(\frac{n\pi\alpha}{L})^2t}\cdot\sin\ab(\frac{n\pi x}{L})$$ and the full solution would be $u(x,t)=\sum_{n=1}^\infty c_nu_n$. To fulfill the condition of $u(x,0)=f(x)$, one needs to fulfill $f(x)=\sum_{n=1}^\infty c_n\sin\ab(\frac{n\pi x}{L})$ which would require the Fourier Series 
+$$c_n=\frac{2}{L}\int_0^L f(x)\sin\ab(\frac{n\pi x}{L})\,dx$$
+
+\subsubsection{Fourier Series}
+In general, any periodic function (we have chosen to construct a periodic extension of the given function in the above example) can be decomposed as
+$$f(x)=\frac{a_0}{2}+\sum_{n=1}^\infty\ab(a_n\cos\ab(\frac{n\pi x}{L}) + b_n\sin\ab(\frac{n\pi x}{L}))$$
+\begin{align*}
+    a_n=\frac{1}{L}\int_{-L}^L f(x)\cos\ab(\frac{n\pi x}{L})\,dx\\
+    b_n=\frac{1}{L}\int_{-L}^L f(x)\sin\ab(\frac{n\pi x}{L})\,dx\\
+\end{align*}
+
+\subsubsection{Bar with Heated Sides}
+This case is identical to the bar with insulated sides, but with an added steady-state of
+$$v(x)=(T_2-T_1)\frac{x}{L}+T_1$$ from the sides being kept at $T_1$ and $T_2$.
+
+\subsection{Wave Equation on a String}
+$$\alpha^2\pdv[order=2,2]{u}{x}=\pdv[order=2,2]{u}{t}$$ results in natural frequencies of $\frac{n\pi a}{L}$ and wavelength $\frac{2L}{n}$.
+
+\subsection{Laplace's Equation}
+Fundamentally, Laplace's Equation is
+$\nabla u = 0$
+\subsubsection{Dirichlet Problem for a Rectangle}
+For a rectangle that is $a$ wide and $b$ tall, where 3 of the sides are fixed to $0$, but the right-hand side is fixed to $u(a,y)=f(y)$ we have
+$$u_n(x,y)=\sinh\ab(\frac{n\pi x}{b})\sin\ab(\frac{n\pi y}{b})$$
+$$c_n=\frac{2}{b\sinh\ab(\frac{n\pi a}{b})}\int_0^bf(y)\sin\ab(\frac{n \pi y}{b})\,dy$$
+
+\subsubsection{Dirichlet Problem for a Circle}
+For a circle of radius $a$ and boundary $u(a,\theta)=f(\theta)$, the relevant form of Laplace's Equation is
+$$u_rr+\frac{1}{r}u_r+\frac{1}{r^2}u_{\theta\theta}=0$$
+with the values of $f$ being bounded and periodic.
+Fundamental solutions (including a constant term) include 
+\begin{align*}
+    u_n(r,\theta) = r^n\cos(n\theta) && u_n(r,\theta) = r^n\sin(n\theta)
+\end{align*}
+with the coefficients all corresponding to the relevant Fourier series.
+
+\section{Sturm-Liouville Problems}
+Differential Equations of the form
+$$(py')' - qy + \lambda ray=0$$
+which we assume to have $p,p',q,r$ continuous, $p,r>0$ for $0\le x\le1$ (regular) and boundary conditions
+\begin{align*}
+    \alpha_1y(0)+\alpha_2y'(0)=0&&\beta_1y(1)+\beta_2y'(1)=0
+\end{align*}
+
+The eigenvalues $\lambda$ will always be real-valued with a single eigenfunction each, and the eigenfunctions $\phi_m,\phi_n$ corresponding to distinct eigenvalues will always be orthogonal
+$$\int_0^1 r\phi_m\phi_n\,dx=0$$
+
+We can normalize the eigenvalues by dividing their ``magnitude''
+$$\int_0^1r\phi_n^2\,dx$$
+
+And from these eigenfunctions, we form a basis from which other functions can be constructed.
+
+\section{Common Trigonometric Identities}
+$$a\cos{x}+b\cos{x}=\sgn{(a)}\sqrt{a^2+b^2}\cos{\left(x+\arctan\left(-\frac{b}{a}\right)\right)}$$
+$$\cos{\ab(a+b)} = \cos{a}\cos{b} - \sin{a}\sin{b}$$
+$$\sin{\ab(a+b)} = \sin{a}\cos{b} + \cos{a}\sin{b}$$
+$$\cos{2\theta} = 2\cos^2\theta-1 =  1 - 2\sin^2\theta$$
+
+$$\int x\sin(ax)\,dx = \frac{\sin(ax)}{a^2}-\frac{x\cos(ax)}{a}+C$$
+$$\int x\cos(ax)\,dx = \frac{\cos(ax)}{a^2}+\frac{x\sin(ax)}{a}+C$$
+
+\section{Even and Odd Function Identities}
+Let $E$ represent some even function, $O$ represent some odd function.
+\begin{align*}
+    E \cdot E = E && O \cdot E = E &&
+    O \cdot O = E
+\end{align*}
+\begin{align*}
+    \int_{-L}^{+L} E(x)\,dx = 2\int_0^{+L}E(x)\,dx&&
+    \int_{-L}^{+L} O(x)\,dx = 0
+\end{align*}
+
+\end{document}
+
